@@ -109,18 +109,18 @@ class App extends Component {
           {item.title}
         </span>
         <span>
-          <button
-            className="btn btn-secondary mr-2"
-            onClick={() => this.editItem(item)}
-          >
-            Edit
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => this.handleDelete(item)}
-          >
-            Delete
-          </button>
+        
+          <span style={{cursor:'pointer'}} class=" material-symbols-outlined mr-2" onClick={() => this.editItem(item)}>
+            edit_note
+      </span>
+      
+  
+            
+      
+          
+          <span style={{cursor:'pointer'}} class=" material-symbols-outlined" onClick={() => this.handleDelete(item)}>
+delete
+</span>
         </span>
       </li>
     ));
