@@ -70,6 +70,34 @@ class App extends Component {
     return this.setState({ viewCompleted: false });
   };
 
+  handleItemCompleted = (item) => {
+    item.completed = true;
+    axios
+        .put(`http://127.0.0.1:8000/api/todos/${item.id}/`, item)
+        .then((res) => this.refreshList());
+  }
+
+  handleItemNotCompleted = (item) => {
+    item.completed = false;
+    axios
+        .put(`http://127.0.0.1:8000/api/todos/${item.id}/`, item)
+        .then((res) => this.refreshList());
+  }
+
+  toggleItemCompleted = (event, item) => {
+    if (item.completed){
+      event.currentTarget.innerHTML = "check_box_outline_blank"
+      setTimeout(() => {
+        this.handleItemNotCompleted(item)
+      }, 500);
+    } else {
+      event.currentTarget.innerHTML = "select_check_box"
+      setTimeout(() => {
+        this.handleItemCompleted(item)
+      }, 500);
+    }
+  }
+
   renderTabList = () => {
     return (
       <div className="nav nav-tabs">
@@ -94,33 +122,27 @@ class App extends Component {
     const newItems = this.state.todoList.filter(
       (item) => item.completed === viewCompleted
     );
-
     return newItems.map((item) => (
       <li
         key={item.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
         <span
-          className={`todo-title mr-2 ${
-            this.state.viewCompleted ? "completed-todo" : ""
-          }`}
+          className={`todo-title mr-2 ${this.state.viewCompleted ? "completed-todo" : ""}`}
           title={item.description}
         >
           {item.title}
         </span>
         <span>
-        
-          <span style={{cursor:'pointer'}} class=" material-symbols-outlined mr-2" onClick={() => this.editItem(item)}>
+          <span style={{cursor:'pointer'}} class="unselectable material-symbols-outlined mr-2" onClick={(event) => this.toggleItemCompleted(event, item)}>
+            {(item.completed)? "select_check_box":"check_box_outline_blank"}
+          </span>
+          <span style={{cursor:'pointer'}} class="unselectable material-symbols-outlined mr-2" onClick={() => this.editItem(item)}>
             edit_note
-      </span>
-      
-  
-            
-      
-          
-          <span style={{cursor:'pointer'}} class=" material-symbols-outlined" onClick={() => this.handleDelete(item)}>
-delete
-</span>
+          </span>
+          <span style={{cursor:'pointer'}} class="unselectable material-symbols-outlined" onClick={() => this.handleDelete(item)}>
+            delete
+          </span>
         </span>
       </li>
     ));
