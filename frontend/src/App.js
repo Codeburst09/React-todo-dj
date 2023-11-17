@@ -102,12 +102,14 @@ class App extends Component {
     return (
       <div className="nav nav-tabs">
         <span
+          align={"center"}
           onClick={() => this.displayCompleted(true)}
           className={this.state.viewCompleted ? "nav-link active" : "nav-link"}
         >
           Complete
         </span>
         <span
+          align={"center"}
           onClick={() => this.displayCompleted(false)}
           className={this.state.viewCompleted ? "nav-link" : "nav-link active"}
         >
